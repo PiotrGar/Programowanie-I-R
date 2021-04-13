@@ -46,7 +46,7 @@ else:
     ax1 = f1.add_subplot()
     ax1.grid()
     line, = ax1.plot([], [], '-', lw=2)
-
+    ball, = ax1.plot([], [], 'og', ms=10)
     # Dane do animacji
     # Próbowałem tutaj dodać jakąś pętlę z warunkiem y[i] >= 0, czyli żeby 
     # pętla przestała się wykonywać gdy y<0. 
@@ -70,6 +70,8 @@ else:
         #Ślad
         line.set_xdata(x[:-1])
         line.set_ydata(y[:-1])
+        ball.set_data(x[counter], y[counter])
+        return line, ball,
 
     #Paramtery wykresu
     print("Tworzę animację...")
@@ -86,85 +88,5 @@ else:
     #Animowanie. Próbowałem uzależnić jakoś liczbę 'frames' od czasu lotu
     #ale skutek był taki, że wszystkie punkty wyrysowywały się dobrze, lecz
     #ostatni łączył się z pierwszym
-    ani = animation.FuncAnimation(f1, animate, interval=dt*500)
+    ani = animation.FuncAnimation(f1, animate, interval=dt*500, blit=True)
     plt.show()
-'''
-#DRUGA WERSJA
-#Początek ten sam:
-
-# Pobieranie danych
-v = float(input('Podaj prędkość początkową (m/s): '))
-ang = float(input('Podaj kąt wyrzutu (stopnie): '))
-h = float(input('Podaj wysokość wyrzutu (m): '))
-M = float(input('Podaj masę wyrzucanego obiektu (kg): '))
-B = float(input('Podaj współczynnik proporcjonalności siły oporu (kg/m): '))
-# zamiana kąta na radiany
-angrad = ang/180 * np.pi
-# Stałe
-g = 9.8
-# listy na współrzędne
-t = [0]  
-x = [0]  
-y = [0+h]
-# Początkowe wartości - prędkość i przyspieszenie
-vx = [v * np.cos(angrad)] 
-vy = [v * np.sin(angrad)]
-ax = [-(B * (v ** 2) * np.cos(angrad)) / M]
-ay = [-g - (B * (v ** 2) * np.sin(angrad)) / M]
-# Krok
-dt = 0.01
-f1 = plt.figure()
-ax1 = f1.add_subplot(111)
-ax1.grid()
-line, = ax1.plot([], [], '-', lw=2)
-# Tutaj jakoś wstawiłem pętlę, ale efekt nie jest najlepszy
-# Co prawda wykres się wyrysowuje i kończy dla y[i]<0, lecz to chyba nie animacja, tylko statyczny orbaz
-def animate(i):
-    y = [0]
-    x = [0]
-    vx = [v*np.cos(angrad)]
-    vy = [v*np.sin(angrad)]
-    ax = [-(B * v ** 2 * np.cos(angrad)) / M]
-    ay = [-g - (B * v ** 2 * np.sin(angrad) / M)]
-    dt = 0.01
-    i = 0
-    while (y[i] >= 0):
-        x += [0]
-        y += [0]
-        vx += [0]
-        vy += [0]
-        ax += [0]
-        ay += [0]
-        #Nowe położenie
-        x[i+1] = x[i] + dt * vx[i]
-        y[i+1] =  y[i] + dt * vy[i]
-        #Nowa prędkosć
-        vx[i+1] = vx[i] + dt * ax[i]
-        vy[i+1] = vy[i] + dt * ay[i]
-        vel = np.sqrt(vx[i+1] ** 2 + vy[i+1] ** 2)
-        #Nowe przyspieszenie
-        ax[i+1] = -(B * vel * vx[i+1]) / M
-        ay[i+1] = -g - (B * vel * vy[i+1]) / M
-        line.set_xdata(x[:-1])
-        line.set_ydata(y[:-1])
-        i = i + 1
-    return line, 
-
-#Wykres statyczny wyrysowuje się poprawny
-#plt.plot(x,y)
-#plt.xlabel("x [m]")
-#plt.ylabel("y [m]")
-#plt.show()   
-
-
-ax1.set_xlabel("x [m]")
-ax1.set_ylabel("y [m]")
-xmin = 0
-xmax = 10
-ymax = 10
-ymin = 0 
-ax1.set_xlim(xmin, xmax)
-ax1.set_ylim(0, ymax)
-ani = animation.FuncAnimation(f1, animate, interval=dt*1000)
-plt.show()
-'''
