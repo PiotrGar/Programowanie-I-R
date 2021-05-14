@@ -140,6 +140,8 @@ elif kl == 'm':
     ru = Q - 1
     plot(sp, st, ru)
 else:
-    print("Nie wybrano żadnej z dostępnych opcji") #Nie wiedziałem jak dodać tutaj możliwość żeby po błędnym wpisaniu program wyświetlił ponownie komendę 'Wybierz opcję...'. Pewnie pętlą while, ale coś mi nie wychodziło.
+    print("Nie wybrano żadnej z dostępnych opcji") #Nie wiedziałem jak dodać tutaj 
+    #możliwość żeby po błędnym wpisaniu program wyświetlił ponownie komendę 'Wybierz opcję...'. Pewnie pętlą while, ale coś mi nie wychodziło.
 
-#Teraz jak na to patrzę, to myślę że zasadne byłoby użycie klas, a nie takie chałupnicze pętle
+#Teraz jak na to patrzę, to myślę że zasadne byłoby użycie klas, a nie takie chałupnicze 
+#pętle
